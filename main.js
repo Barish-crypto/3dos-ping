@@ -307,7 +307,7 @@ class ClientAPI {
                 }`,
                 "custom"
             );
-
+            await sleep(30);
             if (!api_secret) {
                 if (!email_verified_at) {
                     this.log("Email not verified, skipping account", "warning");
@@ -370,17 +370,17 @@ class ClientAPI {
         }
         this.token = token;
 
-        // const userData = await this.handleSyncData();
-        // if (!userData?.success) return;
+        const userData = await this.handleSyncData();
+        if (!userData?.success) return;
 
-        // if (!userData.data.next_daily_reward_claim || await this.checkInvaliable(userData.data.next_daily_reward_claim)) {
-        //     await this.handleCheckin();
-        // } else {
-        //     this.log(`Already checked in today | Next: ${new Date(userData.data.next_daily_reward_claim).toLocaleString()}`, "warning");
-        // }
+        if (!userData.data.next_daily_reward_claim || await this.checkInvaliable(userData.data.next_daily_reward_claim)) {
+            await this.handleCheckin();
+        } else {
+            this.log(`Already checked in today | Next: ${new Date(userData.data.next_daily_reward_claim).toLocaleString()}`, "warning");
+        }
 
-        // const interValCheckPoint = setInterval(() => this.handleSyncData(), 3 * 60 * 60 * 1000);
-        // intervalIds.push(interValCheckPoint);
+        const interValCheckPoint = setInterval(() => this.handleSyncData(), 3 * 60 * 60 * 1000);
+        intervalIds.push(interValCheckPoint);
 
         if (settings.AUTO_MINING) {
             await this.applySecret();
