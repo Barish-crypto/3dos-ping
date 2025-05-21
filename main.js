@@ -329,7 +329,6 @@ class ClientAPI {
         }
         
         this.log("Failed to sync data", "warning");
-        return null;
     }
 
     async handleHB() {
