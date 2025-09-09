@@ -206,7 +206,7 @@ class ClientAPI {
             email: this.itemData.email,
             password: this.itemData.password,
         };
-        return this.makeRequest(`${this.baseURL}/auth/login`, "post", payload, { isAuth: true });
+        return this.makeRequest(`${this.baseURL}/auth/sso-login`, "post", payload, { isAuth: true });
     }
 
     async getBalance() {
